@@ -1,75 +1,57 @@
 <template>
   <div class="icons">
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
-    <div class="icon">
-      <div class="icon-img">
-        <img class="icon-img-content" src="http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png" alt="">
-        <p class="icon-desc">热门景点</p>
-      </div>
-    </div>
+    <swiper>
+      <swiper-slide v-for="(page, index) of pages" :key="index">
+        <div class="icon" v-for="item of page" :key="item.id">
+          <div class="icon-img">
+            <img class="icon-img-content" :src="item.imgUrl" alt="">
+            <p class="icon-desc">{{item.desc}}</p>
+          </div>
+        </div>
+      </swiper-slide>
+    </swiper>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HomeIcons'
+  name: 'HomeIcons',
+  data () {
+    return {
+      iconList: [{
+        id: '0001',
+        imgUrl: 'http://img1.qunarzz.com/piao/fusion/1611/54/ace00878a52d9702.png',
+        desc: '景点门票'
+      }, {
+        id: '0002',
+        imgUrl: 'http://img1.qunarzz.com/piao/fusion/1711/df/86cbcfc533330d02.png',
+        desc: '滑雪季'
+      }]
+    }
+  },
+  computed: {
+    pages () {
+      const pages = []
+      this.iconList.forEach((item, index) => {
+        const page = Math.floor(index / 8)
+        if (!pages[page]) {
+          pages[page] = []
+        }
+        pages[page].push(item)
+      })
+      return pages
+    }
+  }
 }
 </script>
 
 <style lang="stylus" scoped>
   @import '~styles/varibles.styl'
-  .icons
-    overflow: hidden
+  @import '~styles/mixins.styl'
+  .icons >>> .swiper-container
     height: 0
     padding-bottom: 50%
-    .icon
+  .icon
       position: relative
       overflow: hidden
       float: left
@@ -96,4 +78,5 @@ export default {
         line-height: .44rem
         text-align: center
         color: $darkTextColor
+        ellipsis()
 </style>
